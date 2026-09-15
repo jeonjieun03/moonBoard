@@ -117,8 +117,8 @@
     "record_date": "2026-09-15"
   },
   "status": {
-    "freshness": "fresh",
-    "error_code": "none"
+    "freshness": "stale",
+    "error_code": "offline"
   },
   "last_delta": null,
   "last_comparison": {
@@ -129,10 +129,10 @@
   },
   "last_run": {
     "fixture_id": null,
-    "virtual_now": "2026-09-15T06:16:31.227Z",
-    "outcome": "success",
-    "error_code": "none",
+    "virtual_now": "2026-09-15T07:05:25.751Z",
+    "outcome": "error",
+    "error_code": "offline",
     "retry_after_seconds": null
   },
-  "sequence": 2
+  "sequence": 3
 }
