@@ -1,0 +1,12 @@
+{
+  "name": "moon-board",
+  "private": true,
+  "type": "module",
+  "description": "오늘의 진짜 정보판(T04) — 대구 기준 달의 조명 비율 실제 관측 기록",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node scripts/self-test.mjs",
+    "collect": "node scripts/collect.mjs",
+    "dev": "python3 -m http.server 8080 --directory app/public"
+  }
+}

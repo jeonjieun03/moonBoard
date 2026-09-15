@@ -1,0 +1,5 @@
+# 과제 원본 fixture/reference 파일의 SHA-256을 OS에 상관없이 그대로 보존한다.
+app/public/fixtures/** -text
+reference/** -text
+*.sh text eol=lf
+*.yml text eol=lf

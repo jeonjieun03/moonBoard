@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>오늘의 달 — 진짜 정보판</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="site-header">
+  <h1>🌙 오늘의 달</h1>
+  <p class="sub">대구 기준 달의 조명 비율(illumination) 실제 관측 기록 · 데이터가 안 올 때도 정직하게</p>
+</header>
+
+<main>
+  <section class="card main-card" id="main-card" aria-live="polite">
+    <p class="loading">불러오는 중…</p>
+  </section>
+
+  <section class="card">
+    <h2>일별 기록</h2>
+    <p class="hint">기준 시간대: Asia/Seoul. 같은 날짜는 한 행으로 갱신되고, 새 날짜는 새 행으로 추가됩니다.</p>
+    <div id="daily-table"></div>
+  </section>
+
+  <section class="card synthetic-card">
+    <h2>수신 테스트 <span class="badge synthetic-badge">합성 · 실제 데이터 아님</span></h2>
+    <p class="hint">
+      아래 버튼은 실제 API를 절대 건드리지 않고, 과제에서 제공한 합성 fixture만 재생합니다.
+      실제 관측 기록과 분리된 별도 화면에서 상태 전이를 확인하는 용도입니다.
+    </p>
+    <div id="synthetic-panel">
+      <p class="pending">⚠️ 합성 fixture 원본 파일 연결 준비 중 (원본 zip 대기)</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>
+    출처: <a href="https://aa.usno.navy.mil/data/api" target="_blank" rel="noopener">U.S. Naval Observatory — Astronomical Applications API</a>
+    · 소스 코드: <a id="source-link" href="#" target="_blank" rel="noopener">GitHub 저장소</a>
+  </p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

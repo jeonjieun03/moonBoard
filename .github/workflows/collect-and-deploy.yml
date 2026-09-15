@@ -1,0 +1,68 @@
+name: Collect moon data and deploy
+
+on:
+  schedule:
+    # 매일 00:15 UTC = 09:15 KST (한국은 DST 없음, tz 계산 불필요)
+    - cron: "15 0 * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  collect-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Self-test (network 불필요, 정규화/저장 로직 검증)
+        run: node scripts/self-test.mjs
+
+      - name: Collect real moon data (USNO, 키 불필요)
+        id: collect
+        continue-on-error: true
+        run: node scripts/collect.mjs
+
+      - name: Commit updated records.json if changed
+        run: |
+          if [ -n "$(git status --porcelain app/public/data/records.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add app/public/data/records.json
+            git commit -m "data: daily moon illumination collect ($(date -u +%FT%TZ))"
+            git push
+          else
+            echo "records.json 변경 없음 — 커밋 생략"
+          fi
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: app/public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Fail workflow visibly if today's real collect failed
+        if: steps.collect.outcome == 'failure'
+        run: |
+          echo "::error::오늘의 실제 USNO 조회가 실패했습니다. 배포는 마지막 정상값으로 정상 진행되었지만, 이 워크플로 실행은 실패로 표시합니다."
+          exit 1
