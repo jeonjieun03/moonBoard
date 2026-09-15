@@ -72,6 +72,14 @@ td.delta-neg { color: var(--error); }
   background: #0a0f22; border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-top: 6px; }
 
 .synthetic-card { border-color: #3a2e57; }
+.synthetic-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.synthetic-buttons button {
+  background: #1c1436; color: var(--text); border: 1px solid #3a2e57; border-radius: 8px;
+  padding: 8px 12px; font-size: 0.82rem; cursor: pointer;
+}
+.synthetic-buttons button:hover { border-color: var(--accent-glow); }
+.synthetic-buttons button.recover-btn { background: rgba(74,222,128,0.12); border-color: var(--fresh); color: var(--fresh); }
+#synthetic-result { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
 .badge.synthetic-badge { background: rgba(185,166,255,0.14); color: #c9b6ff; padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; }
 .pending { color: var(--text-dim); font-size: 0.85rem; }
 

@@ -2,7 +2,8 @@
 
 ## 아직 안 된 것 (제출 전 필수)
 
-- [ ] 원본 zip의 fixture 5종+복구 연결 (`app/public/shared/synthetic.mjs` 완성)
+- [x] 원본 fixture 5종+복구 연결 (`app/public/shared/synthetic.mjs` 완성, 공식 fixture 9개로 검증 완료)
+- [x] 원본 17개 파일 SHA-256 대조 (17/17 일치, `evidence/asset-verification.json`)
 - [ ] GitHub 저장소 생성 + push + Pages 배포
 - [ ] 실제 KST 날짜 2건 확보 (서로 다른 날 — 기다리는 시간은 작업시간 제외)
 - [ ] 아래 주소들을 실제 값으로 채우기

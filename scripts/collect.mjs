@@ -3,74 +3,66 @@
 // app/public/data/records.json 을 원자적으로 갱신한다.
 //
 // - API 키가 필요 없는 출처만 쓴다 (README 카드2).
-// - 실패해도 마지막 정상값(daily[])은 절대 덮어쓰지 않는다 (README 카드3).
+// - 실패해도 마지막 정상값(daily_readings[])은 절대 덮어쓰지 않는다 (README 카드3, store.mjs).
 // - 같은 Asia/Seoul 날짜에 여러 번 성공해도 하루 한 행으로 원자적 갱신한다 (README 카드4).
+// - live adapter(usno-adapter.mjs)와 합성 재생이 같은 store.mjs 함수를 공유한다.
 //
 // 실행: node scripts/collect.mjs
-// (Node 18+ 내장 fetch 사용, 외부 패키지 의존성 없음)
 
 import { readFile, writeFile, mkdir, rename } from "node:fs/promises";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  normalizeUsnoReading,
-  upsertDailyReading,
-  markFailure,
-  emptyStore,
-  LOCATION,
-  TZ_OFFSET_HOURS,
-} from "../app/public/shared/normalize.mjs";
+import { applySuccessfulReading, applyError, resetEvaluationState } from "../app/public/shared/store.mjs";
+import { adaptUsnoReading, LOCATION, TZ_OFFSET_HOURS } from "../app/public/shared/usno-adapter.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const RECORDS_PATH = `${__dirname}/../app/public/data/records.json`;
 
 function seoulDateKey(d = new Date()) {
-  // Asia/Seoul 기준 YYYY-MM-DD (en-CA 로케일이 ISO 형식 YYYY-MM-DD를 그대로 줌)
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(d);
 }
 
-async function loadStore() {
+async function loadState() {
   try {
-    const text = await readFile(RECORDS_PATH, "utf8");
-    return JSON.parse(text);
+    return JSON.parse(await readFile(RECORDS_PATH, "utf8"));
   } catch {
-    return emptyStore();
+    return resetEvaluationState();
   }
 }
 
-async function saveStoreAtomic(store) {
+async function saveStateAtomic(state) {
   await mkdir(dirname(RECORDS_PATH), { recursive: true });
   const tmpPath = `${RECORDS_PATH}.${process.pid}.tmp`;
-  await writeFile(tmpPath, JSON.stringify(store, null, 2) + "\n", "utf8");
+  await writeFile(tmpPath, JSON.stringify(state, null, 2) + "\n", "utf8");
   await rename(tmpPath, RECORDS_PATH); // 같은 폴더 내 rename은 원자적
 }
 
 async function main() {
-  const recordDate = seoulDateKey();
-  const sourceUrl = `https://aa.usno.navy.mil/api/rstt/oneday?date=${recordDate}&coords=${LOCATION.lat},${LOCATION.lon}&tz=${TZ_OFFSET_HOURS}`;
+  const requestDate = seoulDateKey();
+  const sourceUrl = `https://aa.usno.navy.mil/api/rstt/oneday?date=${requestDate}&coords=${LOCATION.lat},${LOCATION.lon}&tz=${TZ_OFFSET_HOURS}`;
 
-  let store = await loadStore();
+  let state = await loadState();
   const fetchedAt = new Date().toISOString();
 
   try {
     const res = await fetch(sourceUrl, { signal: AbortSignal.timeout(15000) });
     if (!res.ok) {
-      const code = res.status === 401 || res.status === 403 ? "auth_401" : res.status === 429 ? "rate_429" : "http_error";
-      store = markFailure(store, code, { checkedAt: fetchedAt });
-      await saveStoreAtomic(store);
-      console.error(`[collect] HTTP ${res.status} — 실패로 기록, 마지막 정상값 보존`);
+      const code = res.status === 401 || res.status === 403 ? "auth" : res.status === 429 ? "rate_limit" : "schema_error";
+      state = applyError(state, code, { virtual_now: fetchedAt });
+      await saveStateAtomic(state);
+      console.error(`[collect] HTTP ${res.status} → error_code=${code}, 마지막 정상값 보존`);
       process.exitCode = 1;
       return;
     }
     const raw = await res.json();
-    const reading = normalizeUsnoReading(raw, { sourceUrl, sourceObservedAt: fetchedAt, recordDate });
-    store = upsertDailyReading(store, reading, { fetchedAt });
-    await saveStoreAtomic(store);
-    console.log(`[collect] ${recordDate} 기록 완료 — ${reading.value}${reading.unit} (${reading.phase_name})`);
+    const { reading, display } = adaptUsnoReading(raw, { sourceUrl, fetchedAt });
+    state = applySuccessfulReading(state, reading, { virtual_now: fetchedAt }, display);
+    await saveStateAtomic(state);
+    console.log(`[collect] ${reading.record_date} 기록 완료 — ${reading.normalized_value}${reading.unit} (${display.phase_name})`);
   } catch (err) {
-    const code = err?.name === "TimeoutError" || err?.name === "AbortError" ? "timeout" : err?.code || "network_error";
-    store = markFailure(store, code, { checkedAt: fetchedAt });
-    await saveStoreAtomic(store);
+    const code = err?.name === "TimeoutError" || err?.name === "AbortError" ? "timeout" : err?.code === "schema_error" ? "schema_error" : "offline";
+    state = applyError(state, code, { virtual_now: fetchedAt });
+    await saveStateAtomic(state);
     console.error(`[collect] 실패(${code}): ${err.message} — 마지막 정상값 보존`);
     process.exitCode = 1;
   }
