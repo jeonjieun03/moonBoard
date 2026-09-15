@@ -1,6 +1,7 @@
 import { recomputeDelta } from "./shared/store.mjs";
 import { TIMEZONE } from "./shared/usno-adapter.mjs";
 import { runSuccessSequence, runFailureSequence, runRecoverySequence, FAILURE_IDS } from "./shared/synthetic.mjs";
+import { renderMoonSvg } from "./shared/moon-shape.mjs";
 
 const kstFormatter = new Intl.DateTimeFormat("ko-KR", {
   timeZone: TIMEZONE,
@@ -65,6 +66,7 @@ function renderMainCard(state) {
 
   el.innerHTML = `
     <span class="status-badge ${badgeClass}">● ${badgeLabel}</span>
+    <div class="moon-visual">${renderMoonSvg(good.normalized_value, display?.phase_name, { id: "main" })}</div>
     <div class="moon-value">${good.normalized_value}${good.unit}</div>
     <div class="moon-phase">${escapeHtml(display?.phase_name ?? "")}</div>
     <dl class="meta-grid">
@@ -112,7 +114,7 @@ function renderDailyTable(state) {
       const deltaClass = delta ? (delta.delta > 0 ? "delta-pos" : delta.delta < 0 ? "delta-neg" : "") : "";
       return `<tr>
         <td>${row.record_date}</td>
-        <td>${row.normalized_value}${row.unit}</td>
+        <td class="mini-moon-cell">${renderMoonSvg(row.normalized_value, row.display?.phase_name, { size: 26, id: `row-${row.record_date}` })} ${row.normalized_value}${row.unit}</td>
         <td>${escapeHtml(row.display?.phase_name ?? "")}</td>
         <td class="${deltaClass}">${deltaText}</td>
         <td><button class="raw-toggle" data-idx="${i}">원자료 보기</button></td>
