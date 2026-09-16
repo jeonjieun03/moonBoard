@@ -111,7 +111,7 @@
       "normalized_value": 25,
       "unit": "%",
       "first_fetched_at": "2026-09-16T00:26:46.823Z",
-      "last_fetched_at": "2026-09-16T00:26:46.823Z",
+      "last_fetched_at": "2026-09-16T00:33:48.726Z",
       "reading": {
         "signal_id": "moon-illumination-daegu",
         "normalized_value": 25,
@@ -119,7 +119,7 @@
         "source_name": "U.S. Naval Observatory — Astronomical Applications API",
         "source_url": "https://aa.usno.navy.mil/api/rstt/oneday?date=2026-09-16&coords=35.8714,128.6014&tz=9",
         "source_time": "2026-09-15T15:00:00.000Z",
-        "fetched_at": "2026-09-16T00:26:46.823Z",
+        "fetched_at": "2026-09-16T00:33:48.726Z",
         "record_timezone": "Asia/Seoul",
         "record_date": "2026-09-16"
       },
@@ -215,7 +215,7 @@
     "source_name": "U.S. Naval Observatory — Astronomical Applications API",
     "source_url": "https://aa.usno.navy.mil/api/rstt/oneday?date=2026-09-16&coords=35.8714,128.6014&tz=9",
     "source_time": "2026-09-15T15:00:00.000Z",
-    "fetched_at": "2026-09-16T00:26:46.823Z",
+    "fetched_at": "2026-09-16T00:33:48.726Z",
     "record_timezone": "Asia/Seoul",
     "record_date": "2026-09-16"
   },
@@ -232,10 +232,10 @@
   },
   "last_run": {
     "fixture_id": null,
-    "virtual_now": "2026-09-16T00:26:46.823Z",
+    "virtual_now": "2026-09-16T00:33:48.726Z",
     "outcome": "success",
     "error_code": "none",
     "retry_after_seconds": null
   },
-  "sequence": 5
+  "sequence": 6
 }
