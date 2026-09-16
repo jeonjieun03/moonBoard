@@ -105,6 +105,31 @@ td.delta-neg { color: var(--error); }
 .synthetic-buttons button.recover-btn { background: rgba(74,222,128,0.12); border-color: var(--fresh); color: var(--fresh); }
 #synthetic-result { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
 .badge.synthetic-badge { background: rgba(185,166,255,0.14); color: #c9b6ff; padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; }
+.chart-placeholder {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  background: rgba(3, 5, 9, 0.24);
+}
+.chart-placeholder .pending { margin: 0; }
+
+#illumination-chart:not(.chart-placeholder) {
+  display: block;
+  min-height: 0;
+  border-style: solid;
+  padding: 10px 6px 4px;
+}
+
+.chart-svg { width: 100%; height: auto; display: block; }
+.chart-grid { stroke: var(--border); stroke-width: 1; }
+.chart-axis-label { fill: var(--text-dim); font-size: 8px; font-family: var(--mono); }
+.chart-line { stroke: var(--accent-glow); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart-dot { fill: var(--moon-light); stroke: var(--accent-glow); stroke-width: 1.5; }
+.chart-fallback-text { margin: 6px 0 0; text-align: center; }
+
 .pending { color: var(--text-dim); font-size: 0.85rem; }
 
 footer { max-width: 720px; margin: 28px auto 0; text-align: center; color: var(--text-dim); font-size: 0.8rem; }
