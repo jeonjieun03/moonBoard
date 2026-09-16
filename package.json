@@ -6,6 +6,7 @@
   "engines": { "node": ">=20" },
   "scripts": {
     "test": "node scripts/self-test.mjs && node scripts/run-fixtures-check.mjs",
+    "test:t05-graph": "node scripts/t05-graph-test.mjs",
     "verify-assets": "node scripts/verify-assets.mjs",
     "collect": "node scripts/collect.mjs",
     "dev": "python3 -m http.server 8080 --directory app/public"
