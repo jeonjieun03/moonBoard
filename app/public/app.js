@@ -2,6 +2,7 @@ import { recomputeDelta } from "./shared/store.mjs";
 import { TIMEZONE } from "./shared/usno-adapter.mjs";
 import { runSuccessSequence, runFailureSequence, runRecoverySequence, FAILURE_IDS } from "./shared/synthetic.mjs";
 import { renderMoonSvg } from "./shared/moon-shape.mjs";
+import { prepareIlluminationChartData, renderChartMarkup } from "./shared/chart.mjs";
 
 const kstFormatter = new Intl.DateTimeFormat("ko-KR", {
   timeZone: TIMEZONE,
@@ -138,6 +139,21 @@ function renderDailyTable(state) {
   });
 }
 
+// T05: "최근 달 조명률 변화" 그래프.
+// prepareIlluminationChartData/renderChartMarkup은 shared/chart.mjs의 순수 함수를 그대로 쓴다 —
+// 여기서는 결과를 #illumination-chart에 꽂기만 하고, 실패해도 다른 화면(일별 기록 등)에는 영향을 주지 않는다.
+function renderIlluminationChart(state) {
+  const el = document.getElementById("illumination-chart");
+  try {
+    const points = prepareIlluminationChartData(state);
+    el.innerHTML = renderChartMarkup(points);
+    el.classList.toggle("chart-placeholder", points.length === 0);
+  } catch (err) {
+    el.classList.add("chart-placeholder");
+    el.innerHTML = `<p class="pending">그래프를 표시할 수 없습니다.</p>`;
+  }
+}
+
 function renderSyntheticResult(label, state) {
   const box = document.getElementById("synthetic-result");
   box.hidden = false;
@@ -195,6 +211,7 @@ async function main() {
     const state = await loadRealState();
     renderMainCard(state);
     renderDailyTable(state);
+    renderIlluminationChart(state);
   } catch (err) {
     document.getElementById("main-card").innerHTML = `<span class="status-badge error">● 로딩 실패</span><p class="hint">${escapeHtml(err.message)}</p>`;
   }
