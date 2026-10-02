@@ -1757,8 +1757,8 @@
     "record_date": "2026-10-01"
   },
   "status": {
-    "freshness": "fresh",
-    "error_code": "none"
+    "freshness": "stale",
+    "error_code": "offline"
   },
   "last_delta": 9,
   "last_comparison": {
@@ -1769,10 +1769,10 @@
   },
   "last_run": {
     "fixture_id": null,
-    "virtual_now": "2026-10-01T00:39:48.272Z",
-    "outcome": "success",
-    "error_code": "none",
+    "virtual_now": "2026-10-02T00:37:43.787Z",
+    "outcome": "error",
+    "error_code": "offline",
     "retry_after_seconds": null
   },
-  "sequence": 29
+  "sequence": 30
 }
