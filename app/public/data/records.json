@@ -4015,8 +4015,8 @@
     "record_date": "2026-10-24"
   },
   "status": {
-    "freshness": "fresh",
-    "error_code": "none"
+    "freshness": "stale",
+    "error_code": "offline"
   },
   "last_delta": 6,
   "last_comparison": {
@@ -4027,10 +4027,10 @@
   },
   "last_run": {
     "fixture_id": null,
-    "virtual_now": "2026-10-24T04:38:53.716Z",
-    "outcome": "success",
-    "error_code": "none",
+    "virtual_now": "2026-10-25T04:43:26.084Z",
+    "outcome": "error",
+    "error_code": "offline",
     "retry_after_seconds": null
   },
-  "sequence": 52
+  "sequence": 53
 }
