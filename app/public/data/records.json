@@ -6667,36 +6667,139 @@
           "type": "Feature"
         }
       }
+    },
+    {
+      "record_id": "moon-illumination-daegu-2026-11-21",
+      "signal_id": "moon-illumination-daegu",
+      "record_date": "2026-11-21",
+      "normalized_value": 84,
+      "unit": "%",
+      "first_fetched_at": "2026-11-21T07:11:16.732Z",
+      "last_fetched_at": "2026-11-21T07:11:16.732Z",
+      "reading": {
+        "signal_id": "moon-illumination-daegu",
+        "normalized_value": 84,
+        "unit": "%",
+        "source_name": "U.S. Naval Observatory — Astronomical Applications API",
+        "source_url": "https://aa.usno.navy.mil/api/rstt/oneday?date=2026-11-21&coords=35.8714,128.6014&tz=9",
+        "source_time": "2026-11-20T15:00:00.000Z",
+        "fetched_at": "2026-11-21T07:11:16.732Z",
+        "record_timezone": "Asia/Seoul",
+        "record_date": "2026-11-21"
+      },
+      "display": {
+        "phase_name": "Waxing Gibbous",
+        "moonrise": "14:43",
+        "moonset": "03:02",
+        "source_time_granularity": "day",
+        "closest_phase": {
+          "phase": "Full Moon",
+          "date": "2026-11-24",
+          "time": "23:53"
+        },
+        "location": {
+          "label": "대구",
+          "lat": 35.8714,
+          "lon": 128.6014
+        },
+        "raw": {
+          "apiversion": "4.0.1",
+          "geometry": {
+            "coordinates": [
+              128.6014,
+              35.8714
+            ],
+            "type": "Point"
+          },
+          "properties": {
+            "data": {
+              "closestphase": {
+                "day": 24,
+                "month": 11,
+                "phase": "Full Moon",
+                "time": "23:53",
+                "year": 2026
+              },
+              "curphase": "Waxing Gibbous",
+              "day": 21,
+              "day_of_week": "Saturday",
+              "fracillum": "84%",
+              "isdst": false,
+              "label": null,
+              "month": 11,
+              "moondata": [
+                {
+                  "phen": "Set",
+                  "time": "03:02"
+                },
+                {
+                  "phen": "Rise",
+                  "time": "14:43"
+                },
+                {
+                  "phen": "Upper Transit",
+                  "time": "21:21"
+                }
+              ],
+              "sundata": [
+                {
+                  "phen": "Begin Civil Twilight",
+                  "time": "06:40"
+                },
+                {
+                  "phen": "Rise",
+                  "time": "07:07"
+                },
+                {
+                  "phen": "Upper Transit",
+                  "time": "12:11"
+                },
+                {
+                  "phen": "Set",
+                  "time": "17:15"
+                },
+                {
+                  "phen": "End Civil Twilight",
+                  "time": "17:43"
+                }
+              ],
+              "tz": 9,
+              "year": 2026
+            }
+          },
+          "type": "Feature"
+        }
+      }
     }
   ],
   "current_reading": {
     "signal_id": "moon-illumination-daegu",
-    "normalized_value": 76,
+    "normalized_value": 84,
     "unit": "%",
     "source_name": "U.S. Naval Observatory — Astronomical Applications API",
-    "source_url": "https://aa.usno.navy.mil/api/rstt/oneday?date=2026-11-20&coords=35.8714,128.6014&tz=9",
-    "source_time": "2026-11-19T15:00:00.000Z",
-    "fetched_at": "2026-11-20T07:17:56.751Z",
+    "source_url": "https://aa.usno.navy.mil/api/rstt/oneday?date=2026-11-21&coords=35.8714,128.6014&tz=9",
+    "source_time": "2026-11-20T15:00:00.000Z",
+    "fetched_at": "2026-11-21T07:11:16.732Z",
     "record_timezone": "Asia/Seoul",
-    "record_date": "2026-11-20"
+    "record_date": "2026-11-21"
   },
   "status": {
     "freshness": "fresh",
     "error_code": "none"
   },
-  "last_delta": 10,
+  "last_delta": 8,
   "last_comparison": {
     "state": "comparable",
     "direction": "increase",
-    "magnitude": 10,
+    "magnitude": 8,
     "unit": "%"
   },
   "last_run": {
     "fixture_id": null,
-    "virtual_now": "2026-11-20T07:17:56.751Z",
+    "virtual_now": "2026-11-21T07:11:16.732Z",
     "outcome": "success",
     "error_code": "none",
     "retry_after_seconds": null
   },
-  "sequence": 79
+  "sequence": 80
 }
