@@ -7101,10 +7101,10 @@
   },
   "last_run": {
     "fixture_id": null,
-    "virtual_now": "2026-11-26T08:21:11.239Z",
+    "virtual_now": "2026-11-27T08:36:47.439Z",
     "outcome": "error",
     "error_code": "offline",
     "retry_after_seconds": null
   },
-  "sequence": 85
+  "sequence": 86
 }
